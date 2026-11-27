@@ -322,6 +322,8 @@ export class InkPass extends Pass {
   }
 
   override render(renderer: THREE.WebGLRenderer, inputBuffer: THREE.WebGLRenderTarget) {
+    // keep the ink targets exactly the size of the composer buffer (the composer can be sized for a different pixel ratio)
+    if (this.rt.width !== inputBuffer.width || this.rt.height !== inputBuffer.height) this.setSize(inputBuffer.width, inputBuffer.height);
     const scene = this.world, cam = this.cam;
     const autoClear = renderer.autoClear, shadowAuto = renderer.shadowMap.autoUpdate;
     const mask = cam.layers.mask, override = scene.overrideMaterial, background = scene.background;

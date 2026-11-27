@@ -8,7 +8,10 @@
 // Place changes crossfade by stacking a second canvas for the fade frames; the hook ends on a 4-frame white flash.
 import React, { useEffect, useMemo, useState } from "react";
 import * as THREE from "three";
-import { AbsoluteFill, continueRender, delayRender, getInputProps, useCurrentFrame } from "remotion";
+import { AbsoluteFill, continueRender, delayRender, getInputProps, useCurrentFrame as useRawFrame, useVideoConfig } from "remotion";
+/** frame step: 1 for the 30 fps short, 2 for the 15 fps preview (inputProps { step: 2 }) */
+const STEP = (getInputProps() as { step?: number }).step ?? 1;
+const useCurrentFrame = () => useRawFrame() * STEP;
 import { ThreeCanvas } from "@remotion/three";
 import { useThree } from "@react-three/fiber";
 import { EffectComposer } from "@react-three/postprocessing";
@@ -60,7 +63,7 @@ const Inner: React.FC<{ id: number; kit: Kit }> = ({ id, kit }) => {
     grade: new GradeEffect(GRADES.day, GRADE_STRENGTH.day),
     grain: new GrainEffect({ amount: 0.025, cellPx: 1.5 }), // film grain, OFF by default (inputProps post.grain): the reference measures no grain and it quadruples the file size
   }), [camera, scene]);
-  useEffect(() => () => fx.ink.dispose(), [fx]);
+  useEffect(() => () => (fx.ink as unknown as { dispose?: () => void }).dispose?.(), [fx]);
   const post = useMemo(() => (
     <EffectComposer multisampling={on.msaa}>
       {on.ink ? <primitive object={fx.ink} dispose={null} /> : null}
@@ -95,7 +98,7 @@ const Inner: React.FC<{ id: number; kit: Kit }> = ({ id, kit }) => {
 const dprOverride = () => (getInputProps() as { post?: { dpr?: number } }).post?.dpr;
 const ShotView: React.FC<{ id: number; kit: Kit; alpha: number }> = ({ id, kit, alpha }) => (
   <AbsoluteFill style={{ opacity: alpha }}>
-    <ThreeCanvas width={1080} height={1920} {...(dprOverride() ? { dpr: dprOverride() } : {})} shadows gl={{ antialias: false, stencil: false, powerPreference: "high-performance", toneMappingExposure: 1.0 }}
+    <ThreeCanvas width={useVideoConfig().width} height={useVideoConfig().height} {...(dprOverride() ? { dpr: dprOverride() } : {})} shadows gl={{ antialias: false, stencil: false, powerPreference: "high-performance", toneMappingExposure: 1.0 }}
       camera={{ fov: 40, near: 0.1, far: 1500 }}>
       <Inner id={id} kit={kit} />
     </ThreeCanvas>
