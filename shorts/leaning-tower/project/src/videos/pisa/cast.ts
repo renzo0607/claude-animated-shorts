@@ -117,8 +117,14 @@ const vOf = (i: number) => (i * 7 + (i >> 2)) % 4;
 /** head-shape seed: 7 shapes, so marching soldiers in step still share canvases */
 const seedOf = (i: number) => ((i * 5 + 3) % 7) + 1;
 /** drawing resolution by distance: [canvas w, h, scale from the 600 x 1000 design]; sized for the 1440 x 2560 final */
-const tier = (d: number): [number, number, number] =>
+/** canvas scale for the output size (1 = sized for the 1440 x 2560 final; 0.5 for the 720 x 1280 preview) */
+export const CAST_CFG = { k: 1 };
+const tier0 = (d: number): [number, number, number] =>
   d < 3.2 ? [1800, 3000, 3.0] : d < 6.5 ? [1080, 1800, 1.8] : d < 16 ? [480, 800, 0.8] : [240, 400, 0.4];
+const tier = (d: number): [number, number, number] => {
+  const [w, h, k] = tier0(d), c = Math.max(CAST_CFG.k, 240 / w);
+  return [Math.round(w * c), Math.round(h * c), k * c];
+};
 
 // ---------------- light ----------------
 const SUN = new THREE.Vector3(0.5, 0.75, -0.4).normalize();

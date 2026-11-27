@@ -14,7 +14,8 @@ import { useThree } from "@react-three/fiber";
 import { EffectComposer } from "@react-three/postprocessing";
 import { BlendFunction, BloomEffect, ToneMappingEffect, ToneMappingMode } from "postprocessing";
 import { World, loadKit } from "./world";
-import { InkPass, noInkFallback } from "./ink";
+import { CAST_CFG } from "./cast";
+import { InkPass, noInkFallback, INK_CFG } from "./ink";
 import { LensBlur, GrainEffect } from "./lensblur";
 import { GradeEffect, GRADES, GRADE_STRENGTH, gradeFor } from "./grade";
 import { Kit } from "./build";
@@ -23,8 +24,8 @@ import { TOTAL, FLASH_AT, SHOTS, layersAt, dofAt } from "./story";
 export const PISA_FRAMES = TOTAL;
 
 /** A/B switches for test stills only (Remotion inputProps `{ post: { ink: false, ... } }`); everything is on by default. */
-type PostToggles = { ink: boolean; lens: boolean; pre: boolean; bloom: boolean; grade: boolean; grain: boolean; msaa: number };
-const toggles = (): PostToggles => ({ ink: true, lens: true, pre: true, bloom: true, grade: true, grain: false, msaa: 4, ...((getInputProps() as { post?: Partial<PostToggles> }).post ?? {}) });
+type PostToggles = { ink: boolean; lens: boolean; pre: boolean; bloom: boolean; grade: boolean; grain: boolean; msaa: number; rmax: number; cast: number };
+const toggles = (): PostToggles => ({ ink: true, lens: true, pre: true, bloom: true, grade: true, grain: false, msaa: 4, rmax: 9, cast: 1, ...((getInputProps() as { post?: Partial<PostToggles> }).post ?? {}) });
 
 /** Bloom for emissive sources only (depth.md 6.4). Its MIP chain always starts at 540x960 (half of 1080x1920),
  *  whatever the output size, so the glow keeps the same size relative to the frame (e-fold ~30 px at 1080p,
@@ -52,6 +53,7 @@ const Inner: React.FC<{ id: number; kit: Kit }> = ({ id, kit }) => {
   const world = useMemo(() => new World(kit), [kit]);
   const target = useMemo(() => new THREE.Vector3(), []);
   const on = useMemo(toggles, []);
+  INK_CFG.rmax = on.rmax; CAST_CFG.k = on.cast;
   const fx = useMemo(() => ({
     ink: new InkPass(scene, camera as THREE.PerspectiveCamera),
     lens: new LensBlur({ maxCoC: 24, nearScale: 1.2 }),

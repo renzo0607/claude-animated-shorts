@@ -27,6 +27,8 @@ import { Pass } from "postprocessing";
 
 /** Layer for things that must never be outlined (camera-facing sprites, sky, clouds, smoke). */
 export const NOINK = 3;
+/** ink search radius in px (9 covers the 1440x2560 final; 5 is enough for the 720x1280 preview) */
+export const INK_CFG = { rmax: 9 };
 
 export type InkOptions = {
   color?: THREE.ColorRepresentation; // sRGB hex of the ink
@@ -276,7 +278,7 @@ export class InkPass extends Pass {
     const fs = (fragmentShader: string, uniforms: Record<string, THREE.IUniform>) =>
       new THREE.ShaderMaterial({ vertexShader: FS_VERT, fragmentShader, uniforms, depthTest: false, depthWrite: false });
     const texel = new THREE.Vector2(1, 1);
-    this.maskMat = fs(MASK_FRAG, {
+    this.maskMat = fs(MASK_FRAG.replace("#define RMAX 9", `#define RMAX ${INK_CFG.rmax}`), {
       tNormal: { value: this.rt.texture }, tDepth: { value: this.rt.depthTexture }, tMainDepth: { value: null },
       texel: { value: texel }, cNear: { value: 0.2 }, cFar: { value: 1500 }, p00: { value: 1 }, p11: { value: 1 },
       wNear: { value: o.widthNear }, wFar: { value: o.widthFar }, dNear: { value: o.distNear }, dFar: { value: o.distFar },
