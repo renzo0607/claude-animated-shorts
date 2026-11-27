@@ -347,8 +347,8 @@ const engineers = (cam: CamInfo, t: number, f: number, out: Stage, id: number) =
 const tourists = (cam: CamInfo, t: number, f: number, out: Stage, end: boolean) => {
   // the poser "holding up" the tower: side view, facing left, arms out
   const pose = end ? 1 : smooth((f - 20) / 12);
-  out.places.push(person(cam, W(400, TOURIST(0), "t0"), 1.4, D0, 74.2, { side: true, mirror: true }, {}, { mode: "push", pose: q(pose, 20), expr: "grin", blink: lidAt(t, 400) }));
-  blob(out, 1.4, D0, 74.2);
+  out.places.push(person(cam, W(400, TOURIST(0), "t0"), 0.1, D0, 74.2, { side: true, mirror: true }, {}, { mode: "push", pose: q(pose, 20), expr: "grin", blink: lidAt(t, 400) }));
+  blob(out, 0.1, D0, 74.2);
   front(cam, t, W(401, TOURIST(1), "t1"), -3.6, 72.2, { mode: "stand", expr: end && f > 2006 - L ? "smile_closed" : "laugh", wave: q(0.9 + 0.1 * Math.sin(t * 3), 20) }, out);
   front(cam, t, W(402, KID, "kidT"), -1.2, 76.2, { mode: "stand", expr: "lick", prop: "icecream", facing: -1 }, out, 0.72);
   for (let i = 0; i < 9; i++) {
