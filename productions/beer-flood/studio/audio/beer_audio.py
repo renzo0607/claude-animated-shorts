@@ -310,7 +310,7 @@ def main():
     s = sfx(); m = music()
     v = None
     if VOICE and os.path.exists(VOICE):
-        vx = read_wav(VOICE); vx = vx if vx.ndim == 2 else st(vx)
+        vx, vsr = read_wav(VOICE); assert vsr == SR, 'voice must be 48 kHz'; vx = vx if vx.shape[0] == 2 else st(vx[0])
         v = np.zeros((2, N)); L = min(N, vx.shape[1]); v[:, :L] = vx[:, :L]
     # reference: voice at -16 LUFS (or as if it were); music bed ~ -27 then +3 dB, sfx naive levels -6 dB
     vref = -16.0

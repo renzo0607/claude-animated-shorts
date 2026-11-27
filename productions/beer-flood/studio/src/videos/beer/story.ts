@@ -38,7 +38,7 @@ export const RUBBLE: V3 = [IX + 4.2, 0, 3.2];
 export const STREET_W = 4.4;
 export const HOLE = { x0: -3.6, x1: 3.6, y1: 5.0 }; // where the beer breaks the brewery wall
 export const FLAT_HOUSE: V3 = [-8.4, 0, 47.5];      // the house that is knocked flat
-export const CELLAR: V3 = [3.75, 0, 40.5];          // cellar opening in the pavement
+export const CELLAR: V3 = [3.75, 0, 44.5];          // cellar opening in the pavement
 export const SUITCASE: V3 = [0.4, 0, 66];
 /** wake room (a cut-away room, open toward +z); door in the right wall */
 export const WX = -400;
@@ -71,7 +71,7 @@ export type ShotDef = { id: number; a: number; b: number; light: Light; set: Set
 const END = TOTAL;
 export const SHOTS: ShotDef[] = [
   { id: 1, a: 0, b: F(15), light: "golden", set: "street", tau: (t) => T_WALL + 3.6 + t, sunAz: 165, sunEl: 30 }, // hook: flash-forward
-  { id: 2, a: F(15), b: F(28), light: "day", set: "street", tau: (t) => t - 30, sunAz: 145, sunEl: 42 },
+  { id: 2, a: F(15), b: F(28), light: "day", set: "street", tau: (t) => t - 200, sunAz: 145, sunEl: 42 },
   { id: 3, a: F(28), b: F(50), light: "day", set: "hall", tau: (t) => t, vat: "live", sunAz: 140, sunEl: 40 },
   { id: 4, a: F(50), b: F(63), light: "day", set: "hall", tau: (t) => t, vat: "live", sunAz: 140, sunEl: 40 },
   { id: 5, a: F(63), b: F(74), light: "day", set: "hall", tau: (t) => t, vat: "live", sunAz: 140, sunEl: 40 },
@@ -82,12 +82,12 @@ export const SHOTS: ShotDef[] = [
   { id: 10, a: F(127), b: F(135), light: "golden", set: "street", tau: (t) => t, sunAz: 150, sunEl: 30 },
   { id: 11, a: F(135), b: F(146), light: "golden", set: "wake", tau: (t) => t, sunAz: 100, sunEl: 14 },
   { id: 12, a: F(146), b: F(156), light: "golden", set: "hall", tau: (t) => t, vat: "after", sunAz: 140, sunEl: 22 },
-  { id: 13, a: F(156), b: F(164), light: "golden", set: "hall", tau: (t) => t, vat: "after", sunAz: 0, sunEl: 9 },
+  { id: 13, a: F(156), b: F(164), light: "golden", set: "hall", tau: (t) => t, vat: "after", sunAz: 160, sunEl: 20 },
   { id: 14, a: F(164), b: F(185), light: "day", set: "hall", tau: (t) => t, vat: "intact", sunAz: 140, sunEl: 40 },
-  { id: 15, a: F(185), b: F(206), light: "day", set: "street", tau: (t) => t - 30, sunAz: 145, sunEl: 42 },
+  { id: 15, a: F(185), b: F(206), light: "day", set: "street", tau: (t) => t - 200, sunAz: 145, sunEl: 42 },
   { id: 16, a: F(206), b: F(224), light: "day", set: "hall", tau: (t) => t, vat: "lesson", sunAz: 140, sunEl: 40 },
   { id: 17, a: F(224), b: F(236), light: "day", set: "court", tau: (t) => t, sunAz: 140, sunEl: 40 },
-  { id: 18, a: F(236), b: END, light: "day", set: "street", tau: (t) => t - 30, sunAz: 145, sunEl: 42 },
+  { id: 18, a: F(236), b: END, light: "day", set: "street", tau: (t) => t - 200, sunAz: 145, sunEl: 42 },
 ];
 /** crossfades (frames) at place/time changes; a white 4-frame flash after the hook */
 export const XFADE: Record<number, number> = { 6: 8, 11: 6, 14: 8, 17: 8, 18: 6 };
@@ -156,8 +156,8 @@ const CAMS: Record<number, Key[]> = {
   ],
   // 4 the hoop pops off and crashes down
   4: [
-    { f: F(50), s: (f) => dolly(I(3.8, 2.1, 5.2), I(1.2, 1.5, -0.4), pushK(f, F(50), 0.0025), { fov: 42 }) },
-    { f: F(56), dur: 20, s: (f) => dolly(I(3.4, 1.4, 5.6), I(1.2, 0.6, -0.4), pushK(f, F(56), 0.002), { fov: 44, roll: -0.04 }) },
+    { f: F(50), s: (f) => dolly(I(6.2, 2.6, 9.0), I(1.0, 1.6, -0.4), pushK(f, F(50), 0.0025), { fov: 46 }) },
+    { f: F(56), dur: 20, s: (f) => dolly(I(5.6, 1.6, 9.0), I(1.0, 0.9, -0.4), pushK(f, F(56), 0.002), { fov: 46, roll: -0.04 }) },
   ],
   // 5 the clerk at his standing desk: not worried
   5: [
@@ -181,12 +181,12 @@ const CAMS: Record<number, Key[]> = {
   ],
   // 9 high over St Giles: the wave rolls down the street
   9: [
-    { f: F(111), s: (f) => dolly([1.6, 17.5, 76], [0, 1.5, 22], pushK(f, F(111), 0.002), { fov: 46 }) },
-    { f: F(118), dur: 36, s: (f) => dolly([2.4, 12.5, 72], [0, 1.0, 34], pushK(f, F(118), 0.002), { fov: 46, roll: -0.03 }) },
+    { f: F(111), s: (f) => dolly([1.6, 11.5, 62], [0, 1.5, 20], pushK(f, F(111), 0.002), { fov: 46 }) },
+    { f: F(118), dur: 36, s: (f) => dolly([2.4, 9.5, 64], [0, 1.0, 32], pushK(f, F(118), 0.002), { fov: 46, roll: -0.03 }) },
   ],
   // 10 cellars flood; then the house goes down
   10: [
-    { f: F(127), s: (f) => dolly([1.0, 1.4, 49], [3.6, 0.3, 40.5], pushK(f, F(127), 0.003), { fov: 42, roll: 0.03 }) },
+    { f: F(127), s: (f) => dolly([0.2, 7.0, 54.5], [3.7, 0.3, 44.5], pushK(f, F(127), 0.003), { fov: 46, roll: 0.03 }) },
     { f: F(131), cut: true, s: (f) => dolly([3.0, 2.2, 64], [-6.5, 4.2, 47.5], pushK(f, F(131), 0.002), { fov: 46, roll: -0.04 }) },
   ],
   // 11 the wake: candles, mourners, then the beer comes in under the door
@@ -204,8 +204,8 @@ const CAMS: Record<number, Key[]> = {
   ],
   // 14 "You see": the whole vat, pressure arrows (bigger toward the bottom)
   14: [
-    { f: F(164) - 4, s: (f) => dolly(I(0.6, 3.6, 12.5), I(0, 3.6, -3), pushK(f, F(164), 0.0018), { fov: 46 }) },
-    { f: F(177), dur: 30, s: (f) => dolly(I(0.4, 1.9, 9.5), I(0, 2.1, -3), pushK(f, F(177), 0.002), { fov: 46, roll: -0.03 }) },
+    { f: F(164) - 4, s: (f) => dolly(I(0.6, 3.8, 19), I(0, 3.6, -3), pushK(f, F(164), 0.0018), { fov: 50 }) },
+    { f: F(177), dur: 30, s: (f) => dolly(I(0.4, 2.2, 15.5), I(0, 2.4, -3), pushK(f, F(177), 0.002), { fov: 50, roll: -0.03 }) },
   ],
   // 15 the suitcase you have to sit on
   15: [
@@ -215,17 +215,17 @@ const CAMS: Record<number, Key[]> = {
   // 16 the hoops are the straps: one drops, the rest strain, the next one snaps
   16: [
     { f: F(206) - 3, s: (f) => dolly(I(1.6, 2.9, 8.2), I(0, 3.0, -3), pushK(f, F(206), 0.002), { fov: 44 }) },
-    { f: F(219), dur: 26, s: (f) => dolly(I(2.2, 4.2, 4.8), I(0.6, 4.4, -0.6), pushK(f, F(219), 0.003), { fov: 42, roll: -0.04 }) },
+    { f: F(219), dur: 26, s: (f) => dolly(I(4.6, 3.8, 11.5), I(0.6, 3.5, -1.0), pushK(f, F(219), 0.003), { fov: 46, roll: -0.04 }) },
   ],
   // 17 the court: act of God
   17: [
-    { f: F(224) - 4, s: (f) => dolly([0.7, 2.3, CZ + 5.5], [0, 2.4, CZ - 4], pushK(f, F(224), 0.0018), { fov: 42 }) },
-    { f: F(232), dur: 26, s: (f) => dolly([0.4, 2.2, CZ + 2.2], [0, 2.6, CZ - 4], pushK(f, F(232), 0.002), { fov: 40, roll: 0.03 }) },
+    { f: F(224) - 4, s: (f) => dolly([0.6, 2.7, CZ + 2.2], [0, 2.9, CZ - 4.7], pushK(f, F(224), 0.0018), { fov: 42 }) },
+    { f: F(232), dur: 26, s: (f) => dolly([0.3, 2.9, CZ - 0.6], [0, 3.1, CZ - 4.7], pushK(f, F(232), 0.002), { fov: 40, roll: 0.03 }) },
   ],
   // 18 Parliament hands the brewer his tax back
   18: [
-    { f: F(236) - 3, s: (f) => dolly([0.4, 1.65, 12.5], [0.2, 1.5, 6.0], pushK(f, F(236), 0.002), { fov: 40 }) },
-    { f: F(242), dur: 24, s: (f) => dolly([0.9, 1.6, 10.0], [0.6, 1.55, 6.0], pushK(f, F(242), 0.0025, 0.006, 30), { fov: 38, roll: -0.035 }) },
+    { f: F(236) - 3, s: (f) => dolly([0.3, 1.6, 12.8], [0.15, 1.45, 6.1], pushK(f, F(236), 0.002), { fov: 40 }) },
+    { f: F(242), dur: 24, s: (f) => dolly([0.5, 1.6, 11.0], [0.3, 1.5, 6.1], pushK(f, F(242), 0.0025, 0.006, 30), { fov: 38, roll: -0.035 }) },
   ],
 };
 
@@ -271,7 +271,7 @@ export const DOF: Dof[] = [
   { f: F(206), cInf: 0 },                              // hoops lesson
   { f: F(219), cInf: 9 },
   { f: F(224), cInf: 7 },                              // court
-  { f: F(236), cInf: 11, focus: () => [0.2, 1.55, 6.0] }, // payoff
+  { f: F(236), cInf: 11, focus: () => [0.15, 1.55, 6.1] }, // payoff
 ];
 export const dofAt = (f: number) => {
   let i = 0; while (i + 1 < DOF.length && f >= DOF[i + 1].f) i++;

@@ -3,6 +3,7 @@
 // `id` at frame f as a pure function of (id, f): vat staves and hoops, the bursting wall, the beer wave, the
 // collapsing house, the floods, candles, the suitcase, and the cast from cast.ts.
 import * as THREE from "three";
+import { getInputProps } from "remotion";
 import { Batch, boxGeo, V, lam, Kit, Ray, house, quad, tri, setSight, roofMat } from "./build";
 import { rep, ctex, planksHD, beamHD, stoneHD, cobbleHD, brick, facadeHD, cloudHD } from "./paint";
 import { Pen } from "./toon";
@@ -33,7 +34,16 @@ const M = {
   trim: () => lam("trimCream", () => ({ color: "#efe3c8" })),
 };
 const ironMat = M.iron();
-const porterMat = twoTone(new THREE.MeshLambertMaterial({ color: PORTER, side: THREE.DoubleSide }));
+const porterMat = twoTone(new THREE.MeshLambertMaterial({ color: "#3a1d0e", side: THREE.DoubleSide }), 0.6);
+/** a pool of porter seen from above: dark centre, amber band, ragged foam rim (CircleGeometry uv = unit square) */
+const poolTex = () => ctex("poolTex", 512, 512, (g, r) => {
+  const gr = g.createRadialGradient(256, 256, 0, 256, 256, 256);
+  gr.addColorStop(0, "#3a1d0e"); gr.addColorStop(0.75, "#4a2512"); gr.addColorStop(0.86, "#7a3f1a"); gr.addColorStop(0.9, "#efdcb2"); gr.addColorStop(1, "#f6e8c8");
+  g.fillStyle = gr; g.fillRect(0, 0, 512, 512);
+  for (let i = 0; i < 90; i++) { const a = r() * 6.283, d = 200 + r() * 40, rr = 6 + r() * 14; g.fillStyle = i % 3 ? "#f2e2bd" : "#e2cd9f"; g.beginPath(); g.ellipse(256 + d * Math.cos(a), 256 + d * Math.sin(a), rr * 1.4, rr, a, 0, 7); g.fill(); }
+  for (let i = 0; i < 30; i++) { const a = r() * 6.283, d = r() * 180, rr = 4 + r() * 10; g.fillStyle = "rgba(240,220,170,0.6)"; g.beginPath(); g.ellipse(256 + d * Math.cos(a), 256 + d * Math.sin(a), rr * 1.5, rr, a, 0, 7); g.fill(); }
+});
+const poolMat = twoTone(new THREE.MeshLambertMaterial({ map: poolTex(), side: THREE.DoubleSide }), 0.6);
 const foamMat = twoTone(new THREE.MeshLambertMaterial({ color: FOAM, side: THREE.DoubleSide }));
 
 // ---------------- small builders ----------------
@@ -136,7 +146,7 @@ const sightLines = (): Ray[] => {
 const NST = 30;
 type VatState = { burst: number; pop: { k: number; u: number }[]; snap: { k: number; u: number } | null; after: boolean };
 class VatRig {
-  staves: THREE.InstancedMesh; hoops: THREE.Mesh[] = []; foam: THREE.Mesh; liquid: THREE.Mesh; liqTop: THREE.Mesh;
+  staves: THREE.InstancedMesh; puddle: THREE.Mesh; hoops: THREE.Mesh[] = []; foam: THREE.Mesh; liquid: THREE.Mesh; liqTop: THREE.Mesh;
   private m4 = new THREE.Matrix4(); private q = new THREE.Quaternion(); private e = new THREE.Euler(0, 0, 0, "YXZ");
   constructor(root: THREE.Object3D, public c: V3, public r: number, public h: number, public i: number) {
     const w = ((2 * Math.PI * r) / NST) * 0.985;
@@ -152,8 +162,10 @@ class VatRig {
     }
     this.foam = new THREE.Mesh(new THREE.CircleGeometry(r - 0.1, 40).rotateX(-Math.PI / 2), foamMat);
     this.foam.receiveShadow = true; root.add(this.foam);
+    this.puddle = new THREE.Mesh(new THREE.CircleGeometry(r + 0.3, 40).rotateX(-Math.PI / 2), poolMat);
+    this.puddle.position.set(c[0], PLINTH + 0.015, c[2]); this.puddle.receiveShadow = true; this.puddle.visible = false; root.add(this.puddle);
     this.liquid = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 1, 40, 1, true).translate(0, 0.5, 0), porterMat);
-    this.liqTop = new THREE.Mesh(new THREE.CircleGeometry(1, 40).rotateX(-Math.PI / 2), foamMat);
+    this.liqTop = new THREE.Mesh(new THREE.CircleGeometry(1, 40).rotateX(-Math.PI / 2), poolMat);
     for (const m of [this.liquid, this.liqTop]) { m.receiveShadow = true; m.visible = false; root.add(m); }
   }
   pose(st: VatState) {
@@ -203,6 +215,7 @@ class VatRig {
     // foam top + the column of porter that slumps out when the vat goes
     const u = s < 0 ? 0 : clamp01(s / 1.0);
     this.foam.visible = s < 0;
+    this.puddle.visible = s >= 0;
     this.foam.position.set(c[0], base + h - 0.22, c[2]);
     const showLiq = s >= 0 && !st.after && u < 1;
     this.liquid.visible = this.liqTop.visible = showLiq;
@@ -267,7 +280,8 @@ export class World {
     this.hemi = new THREE.HemisphereLight("#cfe6ff", "#6c5c8c", 1.1);
     this.sun = new THREE.DirectionalLight("#fff0d6", 2.6);
     this.sun.castShadow = true;
-    this.sun.shadow.mapSize.set(4096, 4096);
+    const sm = (getInputProps() as { post?: { shadow?: number } }).post?.shadow ?? 4096;
+    this.sun.shadow.mapSize.set(sm, sm);
     R.add(this.hemi, this.sun, this.sun.target);
     this.cloudMaps = { day: [0, 1, 2, 3].map((k) => cloudHD(k, LOOK.day.cloud)), golden: [0, 1, 2, 3].map((k) => cloudHD(k, LOOK.golden.cloud)) };
     for (let i = 0; i < 9; i++) {
@@ -379,7 +393,7 @@ export class World {
       this.brickData.push({ x, y, vx: x * 0.55 + (hh(i, 3) - 0.5) * 3, vy, vz, w: (hh(i, 4) - 0.5) * 14, tl });
     }
     this.bricks = new THREE.InstancedMesh(bg, lam("looseBrickI", () => ({ color: "#ffffff" })), this.brickData.length);
-    const bc = ["#c4664a", "#b85d42", "#cc7052", "#b0573e"].map((c) => new THREE.Color(c));
+    const bc = ["#a8503a", "#9c4a36", "#b25840", "#94452f"].map((c) => new THREE.Color(c));
     this.brickData.forEach((_, i) => this.bricks.setColorAt(i, bc[i % 4]));
     this.bricks.castShadow = true; this.bricks.receiveShadow = true; this.bricks.frustumCulled = false;
     R.add(this.bricks);
@@ -492,7 +506,7 @@ export class World {
     ab.build(this.afterGroup);
     R.add(this.afterGroup);
     // the hall flood: a disc of porter spreading from the vat
-    this.hallFlood = new THREE.Mesh(new THREE.CircleGeometry(1, 64).rotateX(-Math.PI / 2), porterMat);
+    this.hallFlood = new THREE.Mesh(new THREE.CircleGeometry(1, 64).rotateX(-Math.PI / 2), poolMat);
     this.hallFlood.receiveShadow = true; this.hallFlood.visible = false; R.add(this.hallFlood);
   }
 

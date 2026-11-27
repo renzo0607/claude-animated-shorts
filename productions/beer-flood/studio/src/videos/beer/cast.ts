@@ -437,12 +437,12 @@ export const stage = (id: number, t: number, tau: number, cam: CamInfo): Stage =
     }
     case 12: {
       const e: Expr = exprBy(t, [[155, "relief"]], "dazed");
-      out.places.push(person(cam, { i: 80, o: WORKER(1), okey: "w1" }, RUBBLE[0] + 0.5, 0.25, RUBBLE[2] + 0.6, { side: false, mirror: false }, { mode: "sit", expr: e, blink: lidAt(t, 80) }, {}));
-      stand(cam, out, 81, WORKER(2), "w2", RUBBLE[0] - 1.0, 0, RUBBLE[2] + 1.2, { expr: exprBy(t, [[154, "relief_open"]], "grin"), look: 1 });
-      stand(cam, out, 82, WORKER(0), "w0", RUBBLE[0] + 1.7, 0, RUBBLE[2] + 1.4, { expr: exprBy(t, [[154, "laugh"]], "smile"), look: -1 });
-      for (const [x, k] of [[RUBBLE[0] + 0.5, 0], [RUBBLE[0] - 1.0, 1], [RUBBLE[0] + 1.7, 2]] as const) {
+      out.places.push(person(cam, { i: 80, o: WORKER(1), okey: "w1" }, RUBBLE[0] + 0.5, 0.2, RUBBLE[2] + 1.9, { side: false, mirror: false }, { mode: "sit", expr: e, blink: lidAt(t, 80) }, {}));
+      stand(cam, out, 81, WORKER(2), "w2", RUBBLE[0] - 0.25, 0, RUBBLE[2] + 1.0, { expr: exprBy(t, [[154, "relief_open"]], "grin"), look: 1 });
+      stand(cam, out, 82, WORKER(0), "w0", RUBBLE[0] + 1.25, 0, RUBBLE[2] + 1.1, { expr: exprBy(t, [[154, "laugh"]], "smile"), look: -1 });
+      for (const [x, k] of [[RUBBLE[0] + 0.5, 0], [RUBBLE[0] - 0.25, 1], [RUBBLE[0] + 1.25, 2]] as const) {
         const u = q((t * 0.8 + k * 0.3) % 1, 20);
-        out.fx.push({ key: `drips${u}`, cw: 200, ch: 300, draw: (p) => drips(p, u), x, y: 0.9, z: RUBBLE[2] + 1.6, w: 0.45, h: 0.67 });
+        out.fx.push({ key: `drips${u}`, cw: 200, ch: 300, draw: (p) => drips(p, u), x, y: 0.9, z: RUBBLE[2] + 2.8, w: 0.45, h: 0.67 });
       }
       break;
     }
@@ -457,10 +457,10 @@ export const stage = (id: number, t: number, tau: number, cam: CamInfo): Stage =
       for (let k = 0; k < 5; k++) {
         const fr = 0.85 - k * 0.18, y = PLINTH + fr * VAT_H, depth = 1 - fr, t0 = W(167) + 0.15 * k;
         if (t < t0) continue;
-        const pop = smooth((t - t0) / 0.2), size = (0.55 + 1.6 * depth * (0.45 + 0.55 * deep)) * pop;
+        const pop = smooth((t - t0) / 0.2), size = (1.1 + 3.0 * depth * (0.45 + 0.55 * deep)) * pop;
         for (const side of [-1, 1]) {
-          const x = VAT[0] + side * (VAT_R + 0.25 + size * 0.5 + 0.06 * Math.sin(t * 6 + k));
-          out.fx.push({ key: "arrow", cw: 400, ch: 200, draw: arrow, x, y, z: VAT[2] + 0.5, w: size, h: size * 0.5, rot: side > 0 ? 0 : Math.PI });
+          const x = VAT[0] + side * (VAT_R - 0.15 + size * 0.5 + 0.06 * Math.sin(t * 6 + k));
+          out.fx.push({ key: "arrow", cw: 400, ch: 200, draw: arrow, x, y, z: VAT[2] + 0.9, w: size, h: size * 0.5, rot: side > 0 ? 0 : Math.PI });
         }
       }
       break;
@@ -491,7 +491,7 @@ export const stage = (id: number, t: number, tau: number, cam: CamInfo): Stage =
     }
     case 17: {
       const up = t > W(232) - LEAD;
-      stand(cam, out, 100, JUDGE, "judge", 0, 1.0, CZ - 4.7, { expr: up ? "smile_closed" : "stern", headTilt: up ? -0.12 : 0, look: 0 }, 1, false);
+      stand(cam, out, 100, JUDGE, "judge", 0, 1.45, CZ - 4.7, { expr: up ? "smile_closed" : "stern", headTilt: up ? -0.12 : 0, look: 0 }, 1, false);
       stand(cam, out, 101, CLERK, "clerk", 2.4, 0, CZ - 3.0, { expr: "neutral", look: -1 });
       stand(cam, out, 102, MOURN(1), "m1", -2.5, 0, CZ - 2.6, { expr: "neutral", look: 1 });
       if (up) {
@@ -502,11 +502,11 @@ export const stage = (id: number, t: number, tau: number, cam: CamInfo): Stage =
     }
     case 18: {
       const e: Expr = exprBy(t, [[240, "grin"], [244, "laugh"]], "smile");
-      stand(cam, out, 10, BREWER, "brewer", 1.1, 0, 6.0, { expr: e, look: -1 });
-      stand(cam, out, 110, MP, "mp", -0.7, 0, 6.3, { expr: "neutral", look: 1 });
+      stand(cam, out, 10, BREWER, "brewer", 0.7, 0, 6.0, { expr: e, look: -1 });
+      stand(cam, out, 110, MP, "mp", -0.45, 0, 6.25, { expr: "neutral", look: 1 });
       const k = smooth((t - W(240)) / 0.6);
-      out.fx.push({ key: "coinBag", cw: 300, ch: 300, draw: coinBag, x: -0.25 + 0.9 * k, y: 1.0 + 0.25 * Math.sin(k * Math.PI), z: 6.55, w: 0.5, h: 0.5 });
-      burstFx(out, t, W(244), [0.65, 1.3, 6.6], 0.9, 0.4, "#f2c94c");
+      out.fx.push({ key: "coinBag", cw: 300, ch: 300, draw: coinBag, x: -0.15 + 0.6 * k, y: 1.0 + 0.25 * Math.sin(k * Math.PI), z: 6.55, w: 0.5, h: 0.5 });
+      burstFx(out, t, W(244), [0.45, 1.3, 6.6], 0.9, 0.4, "#f2c94c");
       break;
     }
   }
