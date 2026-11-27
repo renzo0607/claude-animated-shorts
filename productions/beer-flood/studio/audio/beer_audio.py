@@ -319,8 +319,18 @@ def main():
     s = s * dbg(-6.0)
     s = s * dbg(min(0.0, -24.0 - integrated(s)))  # keep the effects bed under the voice (-16) after the -6 dB rule
     mix = m + s + (v if v is not None else 0)
-    peak = np.max(np.abs(mix))
-    if peak > dbg(-1.0): mix *= dbg(-1.0) / peak
+    # master: lift to -14 LUFS (YouTube), then a look-ahead peak limiter at -1.5 dBFS
+    mix = mix * dbg(-14.0 - integrated(mix))
+    ceil = dbg(-1.5)
+    pk = np.max(np.abs(mix), axis=0)
+    need = np.minimum(1.0, ceil / np.maximum(pk, 1e-9))
+    from scipy.ndimage import minimum_filter1d, uniform_filter1d
+    g = minimum_filter1d(need, ns(0.004))                     # look-ahead hold
+    g = uniform_filter1d(g, ns(0.004))                        # 4 ms attack smoothing
+    rel = np.exp(-1.0 / ns(0.08)); out = g.copy()
+    for i in range(1, len(out)): out[i] = min(g[i], out[i - 1] * rel + (1 - rel)) if out[i - 1] < g[i] else g[i]
+    mix = mix * out
+    mix = np.clip(mix, -ceil, ceil)
     write_wav(os.path.join(OUT, "stem_music.wav"), m); write_wav(os.path.join(OUT, "stem_sfx.wav"), s)
     if v is not None: write_wav(os.path.join(OUT, "stem_voice.wav"), v)
     write_wav(os.path.join(OUT, "mix.wav"), mix)

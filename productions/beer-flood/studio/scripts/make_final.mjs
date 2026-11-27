@@ -10,7 +10,9 @@ const run = (c) => { console.log("\n> " + c); execSync(c, { stdio: "inherit" });
 fs.mkdirSync("out/beer/audio", { recursive: true });
 if (fs.existsSync("voice/voice.wav")) {
   run(`ffmpeg -y -loglevel error -i voice/voice.wav -ar 48000 -ac 1 -c:a pcm_s24le voice/voice48.wav`);
-  if (!process.argv.includes("--keep-words")) run(`${py} scripts/align_voice.py SCRIPT.md voice/voice48.wav voice/words.json`);
+  const keep = process.argv.includes("--keep-words") || fs.existsSync("voice/asr_words.json");
+  if (keep) console.log("Keeping voice/words.json (speech-recognition timings).");
+  else run(`${py} scripts/align_voice.py SCRIPT.md voice/voice48.wav voice/words.json`);
   fs.copyFileSync("voice/words.json", "src/videos/beer/words.json");
   run(`${py} audio/beer_audio.py voice/words.json out/beer/audio voice/voice48.wav`);
 } else {

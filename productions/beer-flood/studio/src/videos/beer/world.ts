@@ -14,7 +14,7 @@ import { Pool, Actor, Fx, stage } from "./cast";
 import {
   FPS, SHOTS, ShotDef, V3, camAt, smooth, clamp01, hh, IX, VAT, VATS, VAT_R, VAT_H, PLINTH, HOOPS, DESK, LADDER, RUBBLE, STREET_W, HOLE,
   FLAT_HOUSE, CELLAR, SUITCASE, WX, DOOR, CZ, T_POP, T_CRASH, T_EX, T_CRACK, T_WALL, T_FLAT, T_POUR, T_LOSE, T_SNAP2, W,
-  waveZ, waveH, VatMode,
+  waveZ, waveH, VatMode, WAVE_V,
 } from "./story";
 
 export const loadKit = () => Promise.resolve({} as Kit);
@@ -722,7 +722,7 @@ export class World {
     this.wave.visible = zf > 0;
     if (zf > 0) this.poseWave(zf, waveH(tau), tau);
     // cellar: a sheet of porter sliding over the kerb into the opening once the front has passed
-    const pour = tau - (T_WALL + (CELLAR[2] - 1) / 7);
+    const pour = tau - (T_WALL + (CELLAR[2] - 1) / WAVE_V);
     this.cellarPour.visible = pour > 0 && id === 10;
     if (this.cellarPour.visible) {
       this.cellarPour.position.set(CELLAR[0], 0.35, CELLAR[2]);

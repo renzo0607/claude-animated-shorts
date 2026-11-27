@@ -218,7 +218,7 @@ export type Stage = { places: Place[]; fx: FxPlace[] };
 // townsfolk, mourners, judge, a man from Parliament, a traveller with an overstuffed suitcase.
 import {
   IX, VAT, VAT_R, VAT_H, PLINTH, HOOPS, DESK, LADDER, RUBBLE, STREET_W, SUITCASE, WX, DOOR, CZ, V3,
-  T_POP, T_EX, T_CRACK, T_WALL, T_FLAT, T_POUR, T_LOSE, T_SNAP2, W, waveZ, waveH, CELLAR, hh as H2,
+  T_POP, T_EX, T_CRACK, T_WALL, T_FLAT, T_POUR, T_LOSE, T_SNAP2, W, waveZ, waveH, CELLAR, WAVE_V, hh as H2,
 } from "./story";
 
 const BREWER: Outfit = { jacket: "#6b2f2f", pants: "#3b3f52", boots: "#3a2418", hat: "tophat", moustache: "#5a3b2a", build: "stout", skin: "#f5c9a0" };
@@ -417,7 +417,7 @@ export const stage = (id: number, t: number, tau: number, cam: CamInfo): Stage =
     case 10: {
       waveFx(out, tau, t);
       // pouring into the cellar
-      if (tau > T_WALL + (CELLAR[2] - 1) / 7) for (let k = 0; k < 2; k++) {
+      if (tau > T_WALL + (CELLAR[2] - 1) / WAVE_V) for (let k = 0; k < 2; k++) {
         const u = q(((t * 1.3 + k * 0.5) % 1), 24);
         out.fx.push({ key: `bsplash${u}`, cw: 800, ch: 800, draw: (p) => beerSplash(p, u), x: CELLAR[0] - 0.1, y: 0.5, z: CELLAR[2] - 0.5 + k, w: 1.6, h: 1.6 });
       }

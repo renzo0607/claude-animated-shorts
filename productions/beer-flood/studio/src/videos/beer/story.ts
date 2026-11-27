@@ -56,10 +56,11 @@ export const T_FLAT = W(131) + 0.1;     // "flattens two houses"
 export const T_POUR = W(135);           // "pours into a room"
 export const T_LOSE = W(211) - 0.03;    // "Lose one"
 export const T_SNAP2 = W(222) - 0.03;   // "the next one snaps"
-export const WAVE_V = 7.0;              // m/s down the street
+/** m/s down the street: the front reaches the house that is knocked flat exactly on "flattens" */
+export const WAVE_V = (FLAT_HOUSE[2] - 1.5) / (T_FLAT - T_WALL);
 
 /** wave front z (street) at story time tau, and its crest height */
-export const waveZ = (tau: number) => (tau < T_WALL ? -1 : WAVE_V * (tau - T_WALL) * (1 - 0.006 * (tau - T_WALL)));
+export const waveZ = (tau: number) => (tau < T_WALL ? -1 : WAVE_V * (tau - T_WALL));
 export const waveH = (tau: number) => { const z = waveZ(tau); return z < 0 ? 0 : 4.6 * smooth(z / 5) * (0.75 + 0.25 * Math.exp(-z / 60)); };
 
 // ---------------- shots ----------------

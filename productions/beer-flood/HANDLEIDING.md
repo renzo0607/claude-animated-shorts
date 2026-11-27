@@ -12,7 +12,10 @@ De hele video staat als code in `studio/`. Op een pc met een videokaart rendert 
 4. Download deze repository (groene knop **Code → Download ZIP**, of `git clone`). Kies daarbij de branch `claude/vyrn-youtube-content-8w0a1v`.
 5. Open een terminal in de map `productions/beer-flood/studio` en typ: `npm install`
 
-## 2. Voice-over opnemen
+## 2. Voice-over
+**Al gedaan:** jouw ElevenLabs-opname (Benedict) staat in `studio/voice/`. De pauzes zijn ingekort en hij is 8% versneld (90 s → 74 s), en de woord-timing is met spraakherkenning gemaakt. Het origineel staat in `voice_original.mp3`.
+
+Wil je een nieuwe opname gebruiken:
 - Lees het script uit `SCRIPT.md` in één rustige, vlotte toon voor. Zet er geen muziek onder.
 - Sla de opname op als `studio/voice/voice.wav`. Elke samplerate werkt, het script zet hem zelf om.
 - Begin direct te praten en stop meteen na het laatste woord ("lost").
