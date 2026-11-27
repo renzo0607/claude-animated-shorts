@@ -16,7 +16,7 @@ import { BlendFunction, BloomEffect, ToneMappingEffect, ToneMappingMode } from "
 import { World, loadKit } from "./world";
 import { CAST_CFG } from "./cast";
 import { InkPass, noInkFallback, INK_CFG } from "./ink";
-import { LensBlur, GrainEffect } from "./lensblur";
+import { LensBlur, GrainEffect, LENS_CFG } from "./lensblur";
 import { GradeEffect, GRADES, GRADE_STRENGTH, gradeFor } from "./grade";
 import { Kit } from "./build";
 import { TOTAL, FLASH_AT, SHOTS, layersAt, dofAt } from "./story";
@@ -24,8 +24,8 @@ import { TOTAL, FLASH_AT, SHOTS, layersAt, dofAt } from "./story";
 export const PISA_FRAMES = TOTAL;
 
 /** A/B switches for test stills only (Remotion inputProps `{ post: { ink: false, ... } }`); everything is on by default. */
-type PostToggles = { ink: boolean; lens: boolean; pre: boolean; bloom: boolean; grade: boolean; grain: boolean; msaa: number; rmax: number; cast: number };
-const toggles = (): PostToggles => ({ ink: true, lens: true, pre: true, bloom: true, grade: true, grain: false, msaa: 4, rmax: 9, cast: 1, ...((getInputProps() as { post?: Partial<PostToggles> }).post ?? {}) });
+type PostToggles = { ink: boolean; lens: boolean; pre: boolean; bloom: boolean; grade: boolean; grain: boolean; msaa: number; rmax: number; cast: number; lensq: number; lensShots?: number[] };
+const toggles = (): PostToggles => ({ ink: true, lens: true, pre: true, bloom: true, grade: true, grain: false, msaa: 4, rmax: 9, cast: 1, lensq: 1, ...((getInputProps() as { post?: Partial<PostToggles> }).post ?? {}) });
 
 /** Bloom for emissive sources only (depth.md 6.4). Its MIP chain always starts at 540x960 (half of 1080x1920),
  *  whatever the output size, so the glow keeps the same size relative to the frame (e-fold ~30 px at 1080p,
@@ -52,8 +52,8 @@ const Inner: React.FC<{ id: number; kit: Kit }> = ({ id, kit }) => {
   const { camera, scene } = useThree();
   const world = useMemo(() => new World(kit), [kit]);
   const target = useMemo(() => new THREE.Vector3(), []);
-  const on = useMemo(toggles, []);
-  INK_CFG.rmax = on.rmax; CAST_CFG.k = on.cast;
+  const on = useMemo(() => { const o = toggles(); const sh = SHOTS[id - 1]; let used = false; for (let f = sh.a - 6; f < sh.b + 6; f++) if (dofAt(Math.max(0, f)).cInf > 0.01) { used = true; break; } return { ...o, lens: o.lens && used && (!o.lensShots || o.lensShots.includes(id)) }; }, [id]);
+  INK_CFG.rmax = on.rmax; CAST_CFG.k = on.cast; LENS_CFG.q = on.lensq;
   const fx = useMemo(() => ({
     ink: new InkPass(scene, camera as THREE.PerspectiveCamera),
     lens: new LensBlur({ maxCoC: 24, nearScale: 1.2 }),

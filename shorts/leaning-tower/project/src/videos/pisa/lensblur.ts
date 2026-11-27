@@ -67,6 +67,8 @@ void mainImage(const in vec4 inputColor, const in vec2 uv, const in float depth,
   outputColor = vec4(col, inputColor.a);
 }`;
 
+/** tap-count scale (1 = final quality; 0.4 for the CPU-rendered preview) */
+export const LENS_CFG = { q: 1 };
 type Stage = { taps: number; spread: number; nearTaps: number; rot: number };
 const PRE: Stage = { taps: 16, spread: 0.287, nearTaps: 0, rot: 0.61 };
 const MAIN: Stage = { taps: 64, spread: 0.958, nearTaps: 32, rot: 0 };
@@ -77,7 +79,7 @@ export class LensBlurEffect extends Effect {
       blendFunction: BlendFunction.NORMAL,
       attributes: EffectAttribute.DEPTH | EffectAttribute.CONVOLUTION,
       defines: new Map<string, string>([
-        ["TAPS", String(stage.taps)], ["SPREAD", stage.spread.toFixed(4)], ["NEAR_TAPS", String(stage.nearTaps)], ["ROT", stage.rot.toFixed(4)],
+        ["TAPS", String(Math.max(6, Math.round(stage.taps * LENS_CFG.q)))], ["SPREAD", stage.spread.toFixed(4)], ["NEAR_TAPS", String(Math.round(stage.nearTaps * LENS_CFG.q))], ["ROT", stage.rot.toFixed(4)],
       ]),
       uniforms: new Map<string, Uniform>([
         ["focus", new Uniform(10)], ["cInf", new Uniform(0)], ["nearScale", new Uniform(nearScale)], ["maxCoC", new Uniform(maxCoC)],
