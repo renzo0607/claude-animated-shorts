@@ -1,0 +1,210 @@
+[
+[
+"Italy's most famous building is only standing because a war stopped people from finishing it.",
+1.344,
+0.0,
+1.5,
+0.0,
+"hook: punchy, confident"
+],
+[
+"It's eleven seventy-three, and the town of Pisa is rich, proud, and building the most beautiful bell tower in the world!",
+1.428,
+0.35,
+0.5,
+0.4,
+"setting: bright, proud"
+],
+[
+"The builders finish the ground floor.",
+1.386,
+0.25,
+0.0,
+0.0,
+"build 1"
+],
+[
+"Perfect.",
+1.155,
+0.18,
+0.5,
+0.5,
+"pleased"
+],
+[
+"They finish the first floor.",
+1.386,
+0.2,
+0.0,
+0.1,
+"build 2"
+],
+[
+"Still perfect.",
+1.155,
+0.15,
+0.5,
+0.6,
+"pleased"
+],
+[
+"Halfway up the second floor, the foreman puts down his hammer...",
+1.176,
+0.3,
+-2.5,
+-0.3,
+"tension: slower, quieter"
+],
+[
+"and tilts his head.",
+1.071,
+0.25,
+-3.5,
+-0.5,
+"tension: almost whisper"
+],
+[
+"The whole tower is leaning.",
+1.05,
+0.65,
+2.0,
+-0.6,
+"reveal: dramatic pause, low, loud"
+],
+[
+"Its foundation is only three meters deep, sitting on soft, wet clay.",
+1.365,
+0.35,
+0.0,
+0.0,
+"explain"
+],
+[
+"And before anyone can fix it, Pisa goes to war,",
+1.491,
+0.25,
+0.5,
+0.2,
+"speeding up"
+],
+[
+"and the builders walk off the job for almost a hundred years.",
+1.428,
+0.08,
+0.0,
+-0.2,
+"deadpan"
+],
+[
+"When their grandkids finally come back, they have a genius plan:",
+1.365,
+0.35,
+0.0,
+0.3,
+"setup"
+],
+[
+"build the new floors taller on the short side.",
+1.302,
+0.25,
+0.5,
+0.0,
+"proud plan"
+],
+[
+"Luckily, it didn't fall over.",
+1.208,
+0.4,
+0.5,
+0.3,
+"deadpan 1"
+],
+[
+"Unluckily, now it's leaning, and bent like a banana.",
+1.134,
+0.45,
+0.0,
+-0.4,
+"deadpan 2: drier, lower"
+],
+[
+"You see, the ground under Pisa is like an old mattress.",
+1.312,
+0.45,
+-0.5,
+-0.2,
+"explanation: calmer"
+],
+[
+"Ever sat on the edge of one?",
+1.26,
+0.2,
+0.0,
+0.3,
+"question"
+],
+[
+"The side with your weight sinks, and the more it sinks, the more weight slides onto it.",
+1.449,
+0.15,
+0.0,
+0.0,
+"accelerating feedback"
+],
+[
+"That hundred-year war break gave the clay time to squeeze out its water and firm up.",
+1.365,
+0.3,
+0.0,
+0.0,
+"explain"
+],
+[
+"Without it, the extra floors would have pushed the tower straight over.",
+1.239,
+0.2,
+1.5,
+-0.3,
+"weight: slower, heavier"
+],
+[
+"By nineteen ninety, it was leaning so far that Italy closed it,",
+1.428,
+0.45,
+0.0,
+0.0,
+"consequence"
+],
+[
+"and engineers spent eleven years sneaking dirt out from under the high side.",
+1.407,
+0.1,
+-1.0,
+0.0,
+"sneaky, a bit quieter"
+],
+[
+"They straightened it by forty-five centimeters...",
+1.312,
+0.35,
+0.0,
+0.2,
+"setup twist"
+],
+[
+"and then stopped. On purpose.",
+1.134,
+0.25,
+0.5,
+-0.2,
+"deliberate"
+],
+[
+"Because a tower that stands up straight... is just a tower.",
+1.103,
+0.55,
+1.0,
+-0.4,
+"final: slow deadpan"
+]
+]

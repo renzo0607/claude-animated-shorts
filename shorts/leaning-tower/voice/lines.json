@@ -1,92 +1,158 @@
 [
  {
-  "line": "Italy's most famous building is only standing because a war stopped people from finishing it.",
+  "text": "Italy's most famous building is only standing because a war stopped people from finishing it.",
   "start": 0.0,
-  "end": 4.388
+  "end": 3.918,
+  "note": "hook: punchy, confident"
  },
  {
-  "line": "It's 1173, and the town of Pisa is rich, proud, and building the most beautiful bell tower in the world.",
-  "start": 4.608,
-  "end": 11.211
+  "text": "It's eleven seventy-three, and the town of Pisa is rich, proud, and building the most beautiful bell tower in the world!",
+  "start": 4.268,
+  "end": 9.336,
+  "note": "setting: bright, proud"
  },
  {
-  "line": "The builders finish the ground floor. Perfect.",
-  "start": 11.431,
-  "end": 13.597
+  "text": "The builders finish the ground floor.",
+  "start": 9.586,
+  "end": 10.886,
+  "note": "build 1"
  },
  {
-  "line": "They finish the first floor. Still perfect.",
-  "start": 13.817,
-  "end": 15.709
+  "text": "Perfect.",
+  "start": 11.066,
+  "end": 11.651,
+  "note": "pleased"
  },
  {
-  "line": "Halfway up the second floor, the foreman puts down his hammer and tilts his head.",
-  "start": 15.929,
-  "end": 19.485
+  "text": "They finish the first floor.",
+  "start": 11.851,
+  "end": 12.83,
+  "note": "build 2"
  },
  {
-  "line": "The whole tower is leaning.",
-  "start": 19.705,
-  "end": 20.838
+  "text": "Still perfect.",
+  "start": 12.98,
+  "end": 13.875,
+  "note": "pleased"
  },
  {
-  "line": "Its foundation is only three meters deep, sitting on soft wet clay.",
-  "start": 21.058,
-  "end": 24.389
+  "text": "Halfway up the second floor, the foreman puts down his hammer...",
+  "start": 14.175,
+  "end": 17.4,
+  "note": "tension: slower, quieter"
  },
  {
-  "line": "And before anyone can fix it, Pisa goes to war, and the builders walk off the job for almost a hundred years.",
-  "start": 24.609,
-  "end": 30.244
+  "text": "and tilts his head.",
+  "start": 17.65,
+  "end": 18.699,
+  "note": "tension: almost whisper"
  },
  {
-  "line": "When their grandkids finally come back, they have a genius plan: build the new floors taller on the short side.",
-  "start": 30.464,
-  "end": 35.832
+  "text": "The whole tower is leaning.",
+  "start": 19.349,
+  "end": 20.814,
+  "note": "reveal: dramatic pause, low, loud"
  },
  {
-  "line": "Luckily, it didn't fall over.",
-  "start": 36.052,
-  "end": 37.35
+  "text": "Its foundation is only three meters deep, sitting on soft, wet clay.",
+  "start": 21.164,
+  "end": 24.121,
+  "note": "explain"
  },
  {
-  "line": "Unluckily, now it's leaning and bent like a banana.",
-  "start": 37.57,
-  "end": 39.827
+  "text": "And before anyone can fix it, Pisa goes to war,",
+  "start": 24.371,
+  "end": 26.417,
+  "note": "speeding up"
  },
  {
-  "line": "You see, the ground under Pisa is like an old mattress.",
-  "start": 40.047,
-  "end": 42.713
+  "text": "and the builders walk off the job for almost a hundred years.",
+  "start": 26.497,
+  "end": 28.895,
+  "note": "deadpan"
  },
  {
-  "line": "Ever sat on the edge of one? The side with your weight sinks, and the more it sinks, the more weight slides onto it.",
-  "start": 42.933,
-  "end": 48.099
+  "text": "When their grandkids finally come back, they have a genius plan:",
+  "start": 29.245,
+  "end": 31.843,
+  "note": "setup"
  },
  {
-  "line": "That hundred-year war break gave the clay time to squeeze out its water and firm up.",
-  "start": 48.319,
-  "end": 51.998
+  "text": "build the new floors taller on the short side.",
+  "start": 32.093,
+  "end": 33.995,
+  "note": "proud plan"
  },
  {
-  "line": "Without it, the extra floors would have pushed the tower straight over.",
-  "start": 52.218,
-  "end": 54.874
+  "text": "Luckily, it didn't fall over.",
+  "start": 34.395,
+  "end": 35.867,
+  "note": "deadpan 1"
  },
  {
-  "line": "By 1990 it was leaning so far that Italy closed it, and engineers spent eleven years sneaking dirt out from under the high side.",
-  "start": 55.094,
-  "end": 62.123
+  "text": "Unluckily, now it's leaning, and bent like a banana.",
+  "start": 36.317,
+  "end": 39.249,
+  "note": "deadpan 2: drier, lower"
  },
  {
-  "line": "They straightened it by forty-five centimeters, and then stopped on purpose.",
-  "start": 62.343,
-  "end": 65.698
+  "text": "You see, the ground under Pisa is like an old mattress.",
+  "start": 39.699,
+  "end": 42.438,
+  "note": "explanation: calmer"
  },
  {
-  "line": "Because a tower that stands up straight is just a tower.",
-  "start": 65.918,
-  "end": 68.111
+  "text": "Ever sat on the edge of one?",
+  "start": 42.638,
+  "end": 44.013,
+  "note": "question"
+ },
+ {
+  "text": "The side with your weight sinks, and the more it sinks, the more weight slides onto it.",
+  "start": 44.163,
+  "end": 47.202,
+  "note": "accelerating feedback"
+ },
+ {
+  "text": "That hundred-year war break gave the clay time to squeeze out its water and firm up.",
+  "start": 47.502,
+  "end": 50.844,
+  "note": "explain"
+ },
+ {
+  "text": "Without it, the extra floors would have pushed the tower straight over.",
+  "start": 51.044,
+  "end": 54.016,
+  "note": "weight: slower, heavier"
+ },
+ {
+  "text": "By nineteen ninety, it was leaning so far that Italy closed it,",
+  "start": 54.466,
+  "end": 57.026,
+  "note": "consequence"
+ },
+ {
+  "text": "and engineers spent eleven years sneaking dirt out from under the high side.",
+  "start": 57.126,
+  "end": 59.854,
+  "note": "sneaky, a bit quieter"
+ },
+ {
+  "text": "They straightened it by forty-five centimeters...",
+  "start": 60.204,
+  "end": 62.246,
+  "note": "setup twist"
+ },
+ {
+  "text": "and then stopped. On purpose.",
+  "start": 62.496,
+  "end": 64.063,
+  "note": "deliberate"
+ },
+ {
+  "text": "Because a tower that stands up straight... is just a tower.",
+  "start": 64.613,
+  "end": 67.757,
+  "note": "final: slow deadpan"
  }
 ]
