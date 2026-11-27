@@ -29,22 +29,22 @@ const haloTex = () => ctex("sunHalo", 256, 256, (g) => {
   g.putImageData(im, 0, 0);
 });
 /** the underground section: grass lip, topsoil, silty sand, then wet blue-grey clay with shells and water beads */
-const sectionTex = () => ctex("section", 2048, 512, (g, r) => {
-  const H = 512, m = H / 16; // 16 m tall
+const sectionTex = () => ctex("section", 2048, 1024, (g, r) => {
+  const H = 1024, m = H / 30; // 30 m tall
   const layer = (y0: number, y1: number, c0: string, c1: string) => { const gr = g.createLinearGradient(0, y0 * m, 0, y1 * m); gr.addColorStop(0, c0); gr.addColorStop(1, c1); g.fillStyle = gr; g.fillRect(0, y0 * m, 2048, (y1 - y0) * m + 1); };
   layer(0, 0.5, "#6fae4c", "#5d9a40");
   layer(0.5, 2.2, "#8a6446", "#7a573c");
   layer(2.2, 4.0, "#c9a66b", "#b8945b");
-  layer(4.0, 16, "#7d8fa6", "#5d6f88");
+  layer(4.0, 30, "#8f9196", "#6c6e78");
   const wavy = (y: number, col: string) => { g.strokeStyle = col; g.lineWidth = 5; g.beginPath(); for (let x = 0; x <= 2048; x += 32) g.lineTo(x, y * m + 6 * Math.sin(x / 90 + y)); g.stroke(); };
   wavy(0.5, "rgba(50,35,30,0.6)"); wavy(2.2, "rgba(60,40,30,0.55)"); wavy(4.0, "rgba(40,45,70,0.6)");
   for (let i = 0; i < 600; i++) { // pebbles in the soil, shells and water beads in the clay
-    const x = r() * 2048, yy = r() * 16;
+    const x = r() * 2048, yy = r() * 30;
     if (yy < 4) { g.fillStyle = yy < 2.2 ? "rgba(60,40,30,0.35)" : "rgba(150,120,70,0.5)"; g.beginPath(); g.ellipse(x, yy * m, 4 + r() * 5, 3 + r() * 3, r() * 3, 0, 7); g.fill(); }
-    else if (r() < 0.35) { g.strokeStyle = "rgba(235,228,210,0.75)"; g.lineWidth = 3; g.beginPath(); g.arc(x, yy * m, 6 + r() * 4, Math.PI, 0); g.stroke(); }
+    else if (r() < 0.12) { g.fillStyle = "rgba(235,228,210,0.8)"; g.beginPath(); g.ellipse(x, yy * m, 4, 2.5, r() * 3, 0, 7); g.fill(); }
     else { g.fillStyle = "rgba(170,215,245,0.55)"; g.beginPath(); g.arc(x, yy * m, 2 + r() * 3, 0, 7); g.fill(); }
   }
-  g.fillStyle = "rgba(255,255,255,0.08)"; for (let y = 4.4; y < 16; y += 1.3) g.fillRect(0, y * m, 2048, 3);
+  g.fillStyle = "rgba(60,55,50,0.10)"; for (let y = 4.4; y < 30; y += 1.3) g.fillRect(0, y * m, 2048, 3);
 });
 const tapeTex = () => ctex("tape", 256, 32, (g) => {
   for (let x = -32; x < 256; x += 64) { g.fillStyle = "#d8322f"; g.beginPath(); g.moveTo(x, 32); g.lineTo(x + 32, 0); g.lineTo(x + 64, 0); g.lineTo(x + 32, 32); g.fill(); }
@@ -134,7 +134,7 @@ export class World {
     }
     // ---- lawn ----
     const b = new Batch();
-    const grass = lam("grassHD", () => ({ map: grassHD(), color: "#d2dcb4" }));
+    const grass = lam("grassHD", () => ({ map: grassHD(), color: "#b4c091" }));
     const lawn = new THREE.PlaneGeometry(1400, 1400, 1, 1); lawn.rotateX(-Math.PI / 2);
     const uv = lawn.attributes.uv as THREE.BufferAttribute; for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * 350, uv.getY(i) * 350);
     b.add(lawn, grass);
@@ -168,7 +168,7 @@ export class World {
     // ---- the cut-away diorama (far off at CUT): section face, lawn lip, footing, stub tower ----
     const D = new THREE.Group(); D.position.set(...CUT); R.add(D);
     this.clayM = lam("sectionM", () => ({ map: sectionTex() })) as THREE.MeshLambertMaterial;
-    const face = new THREE.PlaneGeometry(120, 16); face.translate(0, -8, 0);
+    const face = new THREE.PlaneGeometry(120, 30); face.translate(0, -15, 0);
     const fm = new THREE.Mesh(face, this.clayM); fm.receiveShadow = true; D.add(fm);
     const top = new THREE.Mesh(new THREE.PlaneGeometry(120, 60).rotateX(-Math.PI / 2).translate(0, 0.01, -30), lam("grassHD2", () => ({ map: rep(grassHD(), 30, 15) })));
     top.receiveShadow = true; D.add(top);
@@ -184,7 +184,7 @@ export class World {
     this.mattress.position.set(...MAT); this.mattress.rotation.y = 0.2; this.mattress.castShadow = true; this.mattress.receiveShadow = true;
     R.add(this.mattress);
     const pil = new THREE.Mesh(new THREE.SphereGeometry(1, 20, 10), lam("pillow", () => ({ color: "#f3efe6" })));
-    pil.scale.set(0.3, 0.1, 0.55); pil.position.set(-0.72, MH + 0.05, 0); this.mattress.add(pil);
+    pil.scale.set(0.3, 0.14, 0.55); pil.position.set(-0.72, MH + 0.05, 0); this.mattress.add(pil);
     void H_G;
     this.root.traverse((o) => { const m = o as THREE.Mesh; if (m.isMesh && !m.layers.isEnabled(NOINK)) { m.castShadow = m.castShadow || m.parent === this.site; } });
   }

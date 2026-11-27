@@ -75,7 +75,7 @@ export const towerAt = (id: number, f: number): TowerState => {
       return { floors: f < 377 - 6 ? 0.55 + 0.45 * a.grow : 1 + b.grow, lean: 0, kinks: false, pop: Math.max(a.pop, b.pop) };
     }
     case 4: return { floors: 2 + 0.5 * smooth((f - 440) / 30), lean: 0.004, kinks: false };
-    case 5: return { floors: 2.5, lean: 0.015 + 0.085 * smooth((f - 598) / 16), kinks: false };
+    case 5: return { floors: 2.5, lean: 0.015 + 0.115 * smooth((f - 598) / 16), kinks: false };
     case 6: return { floors: 2.5, lean: 0.1 + 0.015 * smooth((f - 690) / 30), kinks: false, sink: 0.25 + 0.3 * smooth((f - 690) / 30) };
     case 7: case 8: return { floors: 2.5, lean: 0.1, kinks: false };
     case 9: {
@@ -131,13 +131,13 @@ const rolled = (s: (f: number) => Shot, roll: number) => (f: number): Shot => ({
 
 // cast anchors used by cameras and the cast
 export const FOREMAN: V3 = [3.2, 0, 13.2];
-export const BANANA_KID: V3 = [8, 0, 72];
-export const TOURISTS_Z = 77;
+export const BANANA_KID: V3 = [7.6, 0, 66];
+export const TOURISTS_Z = 74;
 const CX = CUT[0];
 
 // 1 hook: low behind the tourists, the tower over their shoulders; punch on "war", lift to the tower top on "finishing"
-const S1a = (f: number) => dolly([5, 1.5, 86], [1, 17, 0], pushK(f, 0, 0.0012), { fov: 50 });
-const S1b = (f: number) => dolly([3, 1.3, 83], [2.5, 21, 0], pushK(f, 70, 0.001, 0.004, 30), { fov: 48, roll: -0.035 });
+const S1a = (f: number) => dolly([-3, 1.5, 88], [2, 13, 0], pushK(f, 0, 0.0007), { fov: 50 });
+const S1b = (f: number) => dolly([-2, 1.4, 86], [2.5, 15, 0], pushK(f, 70, 0.0007, 0.003, 30), { fov: 48, roll: -0.035 });
 // 2 aerial over the 1173 piazza, the site in the middle; drifts down on "proud"
 const S2a = (f: number) => zoom([62, 42, 100], [-12, 4, -8], 42, pushK(f, 124, 0.0018));
 const S2b = (f: number) => dolly([16, 2.2, 44], [2, 4.5, 0], pushK(f, 200, 0.002, 0.005, 30), { fov: 46 });
@@ -148,14 +148,14 @@ const S3b = (f: number) => dolly([10, 2.0, 38], [0, 10, 0], pushK(f, 352, 0.002,
 const S4a = (f: number) => dolly([FOREMAN[0] - 1.2, 1.75, FOREMAN[2] + 5.2], [FOREMAN[0] - 0.4, 1.9, FOREMAN[2]], pushK(f, 425, 0.0016), { fov: 38 });
 const S4b = (f: number) => dolly([FOREMAN[0] - 0.4, 1.95, FOREMAN[2] + 2.9], [FOREMAN[0] - 0.05, 1.95, FOREMAN[2]], pushK(f, 520, 0.0022), { fov: 36, roll: 0.04 });
 // 5 reveal: wide low from the front, dutch roll matching the lean; kick on "leaning"
-const S5a = (f: number) => dolly([-8, 1.4, 64], [2, 11, 0], pushK(f, 576, 0.0025), { fov: 46, roll: 0.0 });
+const S5a = (f: number) => dolly([-6, 1.4, 52], [3, 11, 0], pushK(f, 576, 0.0025), { fov: 46, roll: 0.0 });
 // 6 cut-away: the section face, tower base on top, clay below
-const S6a = (f: number) => dolly([CX + 2, -2.2, 26], [CX + 1, -2.4, 0], pushK(f, 624, 0.0018), { fov: 42 });
-const S6b = (f: number) => dolly([CX + 4, -4.2, 16], [CX + 3, -4.6, 0], pushK(f, 685, 0.0022, 0.005, 25), { fov: 40, roll: -0.03 });
+const S6a = (f: number) => dolly([CX + 1, 2, 50], [CX + 1, 2, 0], pushK(f, 624, 0.0015), { fov: 46 });
+const S6b = (f: number) => dolly([CX + 3, -3.5, 28], [CX + 2.5, -4, 0], pushK(f, 685, 0.002, 0.005, 25), { fov: 44, roll: -0.03 });
 // 7 war: side view of the column marching off to the left past the site; 8 the overgrown site
 const S7a = (f: number) => dolly([14, 2.0, 40], [2, 3.2, 14], pushK(f, 720, 0.002), { fov: 44 });
 const S7b = (f: number) => dolly([18, 1.8, 36], [4, 2.6, 12], pushK(f, 790, 0.002), { fov: 42, roll: 0.03 });
-const S8a = (f: number) => dolly([16, 3.0, 30], [0, 5, 0], pushK(f, 828, 0.0025), { fov: 44 });
+const S8a = (f: number) => dolly([22, 3.0, 50], [0, 7, 0], pushK(f, 828, 0.0025), { fov: 44 });
 // 9 grandkids walk in (wide), bulb CU on "genius plan", then low wide while the floors stack
 const S9a = (f: number) => dolly([14, 1.8, 36], [2, 2.6, 14], pushK(f, 865, 0.002), { fov: 44 });
 const S9b = (f: number) => dolly([FOREMAN[0] + 1.2, 1.9, FOREMAN[2] + 4.4], [FOREMAN[0], 2.1, FOREMAN[2]], pushK(f, 920, 0.002, 0.006, 25), { fov: 38 });
@@ -163,12 +163,12 @@ const S9c = (f: number) => dolly([14, 1.6, 82], [3, 26, 0], pushK(f, 958, 0.0012
 // 10 relief wide with the grandkids; 11 banana CU vs the bent tower (side view to show the curve)
 const S10a = (f: number) => dolly([-10, 1.4, 88], [4, 27, 0], pushK(f, 1030, 0.0015), { fov: 48 });
 const S11a = (f: number) => dolly([BANANA_KID[0] + 0.3, 1.75, BANANA_KID[2] + 2.8], [BANANA_KID[0] - 0.6, 2.4, BANANA_KID[2]], pushK(f, 1088, 0.002), { fov: 40 });
-const S11b = (f: number) => dolly([BANANA_KID[0] + 1.6, 1.5, BANANA_KID[2] + 4.2], [2, 25, 0], pushK(f, 1135, 0.0012, 0.004, 25), { fov: 48, roll: 0.04 });
+const S11b = (f: number) => dolly([BANANA_KID[0] + 2.4, 1.6, BANANA_KID[2] + 7], [1, 16, 0], pushK(f, 1135, 0.001, 0.004, 25), { fov: 50, roll: 0.04 });
 // 12 golden: the mattress
 const S12a = (f: number) => dolly([MAT[0] + 3.4, 1.6, MAT[2] + 6.2], [MAT[0], 0.7, MAT[2]], pushK(f, 1180, 0.002), { fov: 42 });
 const S12b = (f: number) => dolly([MAT[0] + 0.8, 1.1, MAT[2] + 4.2], [MAT[0] - 0.4, 0.75, MAT[2]], pushK(f, 1320, 0.0022, 0.005, 30), { fov: 40, roll: -0.04 });
 // 13 golden cut-away: water squeezed out of the clay
-const S13a = (f: number) => dolly([CX + 3, -4.5, 18], [CX + 2, -5.2, 0], pushK(f, 1414, 0.0022), { fov: 42 });
+const S13a = (f: number) => dolly([CX + 2, -1, 40], [CX + 1.5, -1.5, 0], pushK(f, 1414, 0.002), { fov: 46 });
 // 14 the hypothetical: straight up then over, wide
 const S14a = (f: number) => dolly([4, 3, 125], [24, 20, 0], pushK(f, 1520, 0.0012), { fov: 48 });
 // 15 1990: barrier, engineers sneaking dirt out from under the high (-x) side
@@ -178,7 +178,7 @@ const S15b = (f: number) => dolly([-16, 1.6, 18], [-9.5, 1.0, 4], pushK(f, 1712,
 const S16a = (f: number) => dolly([16, 1.2, 88], [3, 27, 0], pushK(f, 1802, 0.0012), { fov: 48 });
 const S16b = (f: number) => dolly([-11, 1.8, 17.5], [-12.5, 1.9, 12], pushK(f, 1872, 0.002, 0.006, 25), { fov: 38 });
 // 17 the tourists again, crane out to the whole tower
-const S17a = (f: number) => dolly([5, 1.5, 86], [1, 17, 0], pushK(f, 1926, 0.0012), { fov: 50 });
+const S17a = (f: number) => dolly([-3, 1.5, 88], [2, 13, 0], pushK(f, 1926, 0.0007), { fov: 50 });
 const S17c = (f: number): Shot => {
   const a = S17a(1975), s = glide((f - 1975) / 70);
   const b: V3 = [34, 26, 135], l: V3 = [3, 24, 0];
@@ -190,7 +190,7 @@ const CAMS: Record<number, Key[]> = {
   2: [{ f: 124, s: S2a }, { f: 200, cut: true, s: S2b }],
   3: [{ f: 288, s: S3a }, { f: 352, dur: 26, s: S3b }],
   4: [{ f: 425, s: S4a }, { f: 520, dur: 28, s: S4b }],
-  5: [{ f: 576, s: S5a }, { f: 592, dur: 22, s: rolled(S5a, -0.07) }],
+  5: [{ f: 576, s: S5a }, { f: 600, dur: 20, s: rolled(S5a, 0.05) }],
   6: [{ f: 624, s: S6a }, { f: 685, dur: 28, s: S6b }],
   7: [{ f: 720, s: S7a }, { f: 790, dur: 24, s: S7b }],
   8: [{ f: 828, s: S8a }],
@@ -228,7 +228,7 @@ export const camAt = (id: number, f: number): Cam => {
 export type Dof = { f: number; dur?: number; cInf: number; focus?: (f: number) => V3 };
 const at = (p: V3, dy = 1.75): (() => V3) => () => [p[0], p[1] + dy, p[2]];
 export const DOF: Dof[] = [
-  { f: 0, cInf: 8, focus: () => [3.2, 1.7, 77] },                   // hook: tourists sharp, tower soft-ish
+  { f: 0, cInf: 8, focus: () => [2.5, 1.7, 74] },                   // hook: tourists sharp, tower soft-ish
   { f: 128, cInf: 0 },                                                 // aerial, site wides
   { f: 425, cInf: 12, focus: at(FOREMAN) },                            // foreman MS
   { f: 520, dur: 28, cInf: 14, focus: at(FOREMAN, 1.95) },             // foreman CU
@@ -242,7 +242,7 @@ export const DOF: Dof[] = [
   { f: 1712, cInf: 9, focus: () => [-9.5, 1.2, 5] },                   // engineers digging
   { f: 1802, cInf: 0 },
   { f: 1872, cInf: 12, focus: () => [-12.5, 1.9, 12] },               // boss: stop
-  { f: 1934, cInf: 8, focus: () => [3.2, 1.7, 77] },                 // tourists
+  { f: 1934, cInf: 8, focus: () => [2.5, 1.7, 74] },                 // tourists
   { f: 1975, dur: 40, cInf: 0 },
 ];
 export const dofAt = (f: number) => {
